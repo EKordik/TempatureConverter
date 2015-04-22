@@ -161,6 +161,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTemp">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new validatorutility.strategy.JTextFieldValidateable(10);&#xa;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

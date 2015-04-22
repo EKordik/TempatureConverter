@@ -6,6 +6,8 @@
 package tempatureconverter;
 
 import javax.swing.JOptionPane;
+import validatorutility.strategy.JTextFieldValidateable;
+import validatorutility.strategy.RequiredValidator;
 
 /**
  *
@@ -19,6 +21,7 @@ public class TempConvertGUI extends javax.swing.JFrame {
     public TempConvertGUI() {
         initComponents();
         convert = new TempConverterService();
+        ((JTextFieldValidateable)txtTemp).setValidator(new RequiredValidator());
     }
 
     /**
@@ -38,7 +41,8 @@ public class TempConvertGUI extends javax.swing.JFrame {
         btnConvert = new javax.swing.JButton();
         btnQuit = new javax.swing.JButton();
         lblTemp = new javax.swing.JLabel();
-        txtTemp = new javax.swing.JTextField();
+        txtTemp = new validatorutility.strategy.JTextFieldValidateable(10);
+        ;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,22 +144,25 @@ public class TempConvertGUI extends javax.swing.JFrame {
         String tempature = txtTemp.getText();
         String tempResult;
         
-        try{
-            if(rbF2C.isSelected()){
-                tempResult = convert.convertToCelsius(tempature) + " degrees Celsius";
-            }else if(rbC2F.isSelected()){
-                tempResult = convert.convertToFahrenheit(tempature) + " degrees Fahrenheit";
-            }else{
-                JOptionPane.showMessageDialog(null, "Select an Option");
-                tempResult = "";
+        if(((JTextFieldValidateable)txtTemp).isFieldValid()){
+            try{
+                if(rbF2C.isSelected()){
+                    tempResult = convert.convertToCelsius(tempature) + " degrees Celsius";
+                }else if(rbC2F.isSelected()){
+                    tempResult = convert.convertToFahrenheit(tempature) + " degrees Fahrenheit";
+                }else{
+                    JOptionPane.showMessageDialog(null, "Select an Option");
+                    tempResult = "";
+                }
+
+                JOptionPane.showMessageDialog(rootPane, tempResult);
+
+            }catch(NumberFormatException nfe){
+                JOptionPane.showMessageDialog(rootPane, "Invalid Entry. Please Enter a Number.");
             }
-            
-            JOptionPane.showMessageDialog(rootPane, tempResult);
-            
-        }catch(NumberFormatException nfe){
-            JOptionPane.showMessageDialog(rootPane, "Invalid Entry. Please Enter a Number.");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Tempature is Required");
         }
-        
     }//GEN-LAST:event_btnConvertActionPerformed
 
     private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
